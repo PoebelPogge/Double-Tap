@@ -26,7 +26,7 @@ docker run --rm \
   -e AWS_SECRET_ACCESS_KEY="YOUR_AWS_SECRET_ACCESS_KEY" \
   -e PASSPHRASE="YOUR_GPG_PASSPHRASE" \
   -e AWS_DEFAULT_REGION="eu-central-1" \
-  ghcr.io/poebelpogge/double-tap:0.1.1 s3://your-s3-bucket/backups/
+  ghcr.io/poebelpogge/double-tap:0.1.2 s3://your-s3-bucket/backups/
 ```
 
 *   `-v /path/to/your/data:/data`: Mounts your host directory (`/path/to/your/data`) into the container at `/data`. The `backup.sh` script will archive `/data`.
@@ -40,7 +40,7 @@ To create an encrypted backup and save it locally within the mounted volume (wit
 docker run --rm \
   -v /path/to/your/data:/data \
   -e PASSPHRASE="YOUR_GPG_PASSPHRASE" \
-  ghcr.io/poebelpogge/double-tap:0.1.1 --skip-upload
+  ghcr.io/poebelpogge/double-tap:0.1.2 --skip-upload
 ```
 
 The encrypted archive (`backup-YYYY-MM-DD_HH-MM-SS.tar.gz.gpg`) will be created directly in `/path/to/your/data` on your host machine.
