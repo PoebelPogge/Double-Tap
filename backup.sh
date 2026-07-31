@@ -115,6 +115,6 @@ else
     echo "Starting archiving from $SOURCE_DIR to $TARGET_S3_PATH..."
     tar -czf - -C "$SOURCE_DIR" . | \
     gpg --symmetric --cipher-algo AES256 --batch --passphrase "$PASSPHRASE" --pinentry-mode loopback | \
-    aws s3 cp - "$TARGET_S3_PATH" --storage-class GLACIER
+    aws s3 cp - "$TARGET_S3_PATH" --storage-class DEEP_ARCHIVE
     echo "Backup successfully uploaded to $TARGET_S3_PATH."
 fi
