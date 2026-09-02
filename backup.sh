@@ -5,7 +5,7 @@ show_help() {
     echo "Usage: docker run double-tap [options] [s3_target_path]"
     echo ""
     echo "Options:"
-    echo "  -p, --passphrase    GPG passphrase (or set PASSPHRASE env)"
+    echo "  -p, --passphrase    AGE passphrase (or set PASSPHRASE env)"
     echo "  -b, --bucket        S3 Bucket name (or set AWS_BUCKET env)"
     echo "  --skip-upload       Only create encrypted archive locally, do not upload to S3."
     echo "                      (Local archive will be saved in the mounted /data volume)"
@@ -90,7 +90,7 @@ else # SKIP_UPLOAD is 1
 fi
 
 TIMESTAMP=$(date +%F_%H-%M-%S)
-FILENAME="backup-${TIMESTAMP}.tar.gz.gpg"
+FILENAME="backup-${TIMESTAMP}.tar.gz.age"
 
 # Logic to handle S3 path and filename (sh compatible)
 if [ "$SKIP_UPLOAD" -eq 0 ]; then
@@ -109,12 +109,12 @@ if [ "$SKIP_UPLOAD" -eq 1 ]; then
     LOCAL_OUTPUT_PATH="$SOURCE_DIR/$FILENAME"
     echo "Starting archiving and encryption to local file: $LOCAL_OUTPUT_PATH..."
     tar -czf - -C "$SOURCE_DIR" . | \
-    gpg --symmetric --cipher-algo AES256 --batch --passphrase "$PASSPHRASE" --pinentry-mode loopback > "$LOCAL_OUTPUT_PATH"
+    AGE_PASSPHRASE="$PASSPHRASE" age --passphrase > "$LOCAL_OUTPUT_PATH"
     echo "Backup successfully created locally as $LOCAL_OUTPUT_PATH."
 else
     echo "Starting archiving from $SOURCE_DIR to $TARGET_S3_PATH..."
     tar -czf - -C "$SOURCE_DIR" . | \
-    gpg --symmetric --cipher-algo AES256 --batch --passphrase "$PASSPHRASE" --pinentry-mode loopback | \
+    AGE_PASSPHRASE="$PASSPHRASE" age --passphrase | \
     aws s3 cp - "$TARGET_S3_PATH" --storage-class DEEP_ARCHIVE
     echo "Backup successfully uploaded to $TARGET_S3_PATH."
 fi

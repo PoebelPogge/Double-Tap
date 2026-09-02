@@ -13,6 +13,6 @@ sudo docker run --rm \
     -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
     -e AWS_DEFAULT_REGION=eu-central-1 \
     -e PASSPHRASE="${PASSPHRASE}" \
-    ghcr.io/poebelpogge/double-tap:0.1.2 /data s3://...bucket_name.../
+    ghcr.io/poebelpogge/double-tap:0.2.0 /data s3://...bucket_name.../
 
 echo "Backup command finished."

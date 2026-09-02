@@ -3,7 +3,7 @@ FROM alpine:latest
 # Install necessary tools
 RUN apk add --no-cache \
     tar \
-    gnupg \
+    age \
     aws-cli \
     bash
 
